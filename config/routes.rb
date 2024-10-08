@@ -1,9 +1,8 @@
 Rails.application.routes.draw do
-# get 'tasks', to: 'tasks#index', as: :tasks
-  # get 'tasks/show'
-  # get 'tasks/new'
-  # get 'tasks/edit'
 
+  root to: 'pages#home'
+
+  devise_for :users
 
   resources :tasks 
 

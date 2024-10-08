@@ -1,9 +1,13 @@
 class TasksController < ApplicationController
 
+  # checks if user is authenticated to access the page
+  before_action :authenticate_user!, only: [:index, :show, :edit, :update, :destroy]
   before_action :set_task, only: [:show, :edit, :update, :destroy]
+  before_action :find_user 
 
   def index
-    @tasks = Task.all 
+    @user = User.find(params[:user_id]) if params[:user_id]
+    @tasks = @user.tasks.all if @user
   end 
 
   def show
@@ -11,14 +15,14 @@ class TasksController < ApplicationController
   end
 
   def new
-    @task = Task.new
+    @task = Task.new({:user_id => @user.id})
   end
 
   def create
     @task = Task.new(task_params)
     if @task.save
-      puts "saved"
-      redirect_to tasks_path, notice: "Task was successfully created."
+      flash[:notice] = "Task was successfully created."
+      redirect_to tasks_path, {:user_id => @user.id}
     else
       render :new
     end
@@ -49,5 +53,11 @@ class TasksController < ApplicationController
     # Finds a task by its id from the params hash
       def set_task
         @task = Task.find(params[:id])
+      end
+
+      def find_user 
+        if params[:user_id]
+          @user = User.find(params[:user_id])
+        end 
       end
 end
