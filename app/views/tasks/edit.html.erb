@@ -1,0 +1,11 @@
+<div class="card">
+    <div class="card-header">
+        <h5 class="card-title">Create task</h5>
+    </div>
+    <div class="card-body">
+      <%= form_with model: @task, url: task_path(@task.id), html: { method: :put }, local: true do |f| %>
+            <%= render partial:'form', locals: {f: f} %>
+            <%= f.submit "Create task", class: "btn btn-primary"%>
+        <% end %>
+    </div>
+</div>
