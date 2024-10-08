@@ -11,20 +11,21 @@
     <% if @tasks.present? %>
         <% @tasks.each do |task| %>
             <tr>
-                <td><%= task.name %></td>
-                <td><%= task.description %></td>
-                <td><%= task.due_date %></td>
-                <td>
-                    <%= link_to "Edit", edit_task_path(id: task.id), class:"btn btn-sm btn-secondary" %>
-                    <%= link_to "Show", task_path(id: task.id), class:"btn btn-sm btn-success" %>
-                    <%= link_to "Delete", task_path(id: task.id),data: {confirm: 'are you sure'}, method: :delete, class:"btn btn-sm btn-danger"%>
-                </td>
+            <td><%= task.name %></td>
+            <td><%= task.description %></td>
+            <td><%= task.due_date %></td>
+            <td>
+                <%= link_to "Edit", edit_task_path(task), class:"btn btn-sm btn-secondary" %>
+                <%= link_to "Show", task_path(task), class:"btn btn-sm btn-success" %>
+                <%= link_to "Delete", task_path(task), data: {confirm: 'Are you sure?'}, method: :delete, class:"btn btn-sm btn-danger" %>
+            </td>
             </tr>
-        <% end %> 
-    <% else %>
+        <% end %>
+        <% else %>
         <tr>
             <td colspan="4" class ="text-muted">No tasks found</td>
         </tr>
     <% end %>
+
 </tbody>
 </table>

@@ -1,0 +1,62 @@
+DEVISE SETUP
+
+gem 'devise'
+
+
+rails g devise:install 
+
+
+create model and migration for user
+	rails g devise User
+
+create views 
+	rails g devise:views
+	
+
+setup home view page controller 
+	rails g controller pages home 
+	
+migrate:
+	rails db:migrate
+
+
+protect pages for accessing by unauthenticated users
+    before_action :authenticate_user!, only: [:index, :show, :edit, :update, :destroy]
+
+fetching all record based on user and record relationship example (using devise auth)
+     # Ensure the user is authenticated to access these actions
+    before_action :authenticate_user!
+
+    def index
+        @tasks = current_user.tasks
+    end 
+
+displaying in views:
+steps: 
+1. use .present? to check if the record is empty 
+    if present 
+        loops through each record and displays it 
+    else
+        display no record found 
+    end 
+
+   <% if @tasks.present? %>
+        <% @tasks.each do |task| %>
+            <tr>
+            <td><%= task.name %></td>
+            <td><%= task.description %></td>
+            <td><%= task.due_date %></td>
+            <td>
+                <%= link_to "Edit", edit_task_path(task), class:"btn btn-sm btn-secondary" %>
+                <%= link_to "Show", task_path(task), class:"btn btn-sm btn-success" %>
+                <%= link_to "Delete", task_path(task), data: {confirm: 'Are you sure?'}, method: :delete, class:"btn btn-sm btn-danger" %>
+            </td>
+            </tr>
+        <% end %>
+        <% else %>
+        <tr>
+            <td colspan="4" class ="text-muted">No tasks found</td>
+        </tr>
+    <% end %>
+ 
+ 
