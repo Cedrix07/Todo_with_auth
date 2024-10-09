@@ -1,17 +1,9 @@
 # frozen_string_literal: true
 
 class Users::SessionsController < Devise::SessionsController
-  # before_action :require_no_authentication, only: [:new, :create]
   before_action :set_cache_control, only: [:new, :create]
 
   private
-
-    def require_no_authentication
-      if user_signed_in?
-        redirect_to tasks_path
-      end
-    end
-
     def set_cache_control
       response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
       response.headers['Pragma'] = 'no-cache'
